@@ -9,7 +9,10 @@ developer..
 after 1 year, a virus began to devastate and control all the machines of the city, but could not master the technologies inside the boy.
 your duty to unmask what is happening and how to this virus.
 
-## Levels and Points 
+## Moviments
+   the hero can move to left, right, jump and walk crouched
+
+## Levels
 In this project, the levels are defined in 2d platform worlds.
 
   1. #### lvl One
@@ -20,6 +23,7 @@ In this project, the levels are defined in 2d platform worlds.
       You are closer to your house and the city where you see trees and technology mixed
       having during the course of the nivel 7 fragments to be collected 20 enemies being (5 Machine golems, 5 Sentinels and 10        AspiraBots)
     
+## Points
 
 - Points are generated throughout the level as you progress by collecting items, destroying enemies, and reaching the end of each level.
 Remembering that each level has its scores separated from the others.
@@ -45,6 +49,8 @@ Remembering that each level has its scores separated from the others.
    - AspiraBot        1 hit   
      
 - Find Items like (System Fragment and Keys) to Unlock Passages and Complete Stages.
+
+with the collected fragments the hero when arriving at the end of the stage puts without mechanical arm in a type of pedestal and deposits the points to proceed in the adventure
 
 ## Life System
 
