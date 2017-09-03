@@ -14,7 +14,7 @@ In this project, the levels are defined in 2d platform worlds.
 
   1. #### lvl One
       You are in an outer part of the city where you see trees and technology mixed
-      having during the course of the novel 10 fragments to be collected 15 enemies being (5 Machine golems, 5 Sentinels and 5 AspiraBots)
+      having during the course of the nivel 10 fragments to be collected 15 enemies being (5 Machine golems, 5 Sentinels and 5 AspiraBots)
       
   2. #### lvl Two
       You are closer to your house and the city where you see trees and technology mixed
@@ -25,7 +25,7 @@ In this project, the levels are defined in 2d platform worlds.
 Remembering that each level has its scores separated from the others.
 
     #### Score
-      - Machine               50 scores
+      - Machine golems        50 scores                
       - Sentinels             25 scores
       - AspiraBot             10 scores
       - Fragment System       100 scores
@@ -34,6 +34,14 @@ Remembering that each level has its scores separated from the others.
 ## Specific objectives
 - Avoid enemies or end them at specific times like (Machines, Sentinels, traps, like spies or holes).
      all enemies have a moment of weakness that can be exploited by the player to attack them.
+     
+   #### weakness
+   
+   - Machine          3 hit's                
+   - Sentinels        1 hit
+   - AspiraBot        1 hit
+   
+   
      
 - Find Items like (System Fragment and Keys) to Unlock Passages and Complete Stages.
 
