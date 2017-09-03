@@ -24,10 +24,13 @@ In this project, the levels are defined in 2d platform worlds.
 - Points are generated throughout the level as you progress by collecting items, destroying enemies, and reaching the end of each level.
 Remembering that each level has its scores separated from the others.
 
-    #### Score
+    #### Score Enemy
       - Machine golems        50 scores                
       - Sentinels             25 scores
       - AspiraBot             10 scores
+      
+    #### Score Items and Obstacle
+    
       - Fragment System       100 scores
       - End Wall              Fragment System * 10
  
@@ -35,7 +38,7 @@ Remembering that each level has its scores separated from the others.
 - Avoid enemies or end them at specific times like (Machines, Sentinels, traps, like spies or holes).
      all enemies have a moment of weakness that can be exploited by the player to attack them.
      
-   #### Weakness
+   #### enemy Weakness
    
    - Machine          3 hit's                
    - Sentinels        1 hit
