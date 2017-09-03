@@ -35,13 +35,11 @@ Remembering that each level has its scores separated from the others.
 - Avoid enemies or end them at specific times like (Machines, Sentinels, traps, like spies or holes).
      all enemies have a moment of weakness that can be exploited by the player to attack them.
      
-   #### weakness
+   #### Weakness
    
    - Machine          3 hit's                
    - Sentinels        1 hit
-   - AspiraBot        1 hit
-   
-   
+   - AspiraBot        1 hit   
      
 - Find Items like (System Fragment and Keys) to Unlock Passages and Complete Stages.
 
