@@ -16,8 +16,8 @@ your duty to unmask what is happening and how to this virus.
 In this project, the levels are defined in 2d platform worlds.
 
   1. #### lvl One
-      You are in an outer part of the city where you see trees and technology mixed
-      having during the course of the nivel 10 fragments to be collected 15 enemies being (5 Machine golems, 5 Sentinels and 5 AspiraBots)
+      You are in an outer part of the city where you see grass and technology mixed
+      having during the course of the nivel 10 fragments to be collected 15 enemies being (15 AspiraBots)
       
   2. #### lvl Two
       You are closer to your house and the city where you see trees and technology mixed
