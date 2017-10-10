@@ -31,6 +31,8 @@ system.activate("multitouch")
 
 -- These are variables to hold the joysticks so that I can 
 -- use them in a timer later on
+
+local contador = 0
 local js1
 local js2
 
@@ -171,7 +173,7 @@ end
 local function endGame()
 	composer.gotoScene("menu")
 end
-
+     
 local function onCollision(event)
 	if(event.phase == "began") then
 		local ob1 = event.object1
@@ -180,6 +182,9 @@ local function onCollision(event)
 		if((ob1.myName == "bullet" and ob2.myName == "enemy")
 		or (ob1.myName == "enemy" and ob2.myName == "bullet"))
 		then
+
+			
+
 			display.remove(ob1)
 			display.remove(ob2)
 
@@ -188,9 +193,11 @@ local function onCollision(event)
 			for i = #enemyTable, 1, -1 do
 				if(enemyTable[i] == ob1 or enemyTable[i] == ob2) then
 					table.remove(enemyTable, i)
+					contador = contador + 1
 					break
 				end
 			end
+			 
 
 		elseif(ob1.myName == "player" and ob2.myName == "enemy" or
 				ob1.myName == "enemy" and ob2.myName == "player")
@@ -207,6 +214,16 @@ local function onCollision(event)
 			end
 		end
 	end
+end
+
+local indicadorContagem = display.newText(contador, display.contentCenterX, display.contentCenterX, native.systemFont, 80 )
+
+local function mostraContagem( event )
+	count = contador
+
+	
+	indicadorContagem.text = count
+	indicadorContagem:setFillColor(1, 1, 1, 1)
 end
 
 -- -----------------------------------------------------------------------------------
@@ -251,6 +268,8 @@ function scene:create( event )
 	setupGun()
 	setupJS1()
 end
+
+Runtime:addEventListener("enterFrame", mostraContagem)
 
 
 -- show()
