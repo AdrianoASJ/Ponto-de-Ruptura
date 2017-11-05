@@ -3,10 +3,7 @@ local composer = require( "composer" )
 
 local scene = composer.newScene()
 
--- -----------------------------------------------------------------------------------
--- Code outside of the scene event functions below will only be executed ONCE unless
--- the scene is removed entirely (not recycled) via "composer.removeScene()"
--- -----------------------------------------------------------------------------------
+
 local physics = require("physics")
 physics.start()
 physics.setGravity(0, 0)
@@ -14,23 +11,14 @@ physics.setGravity(0, 0)
 --------------------------------------------------------------------------------------
 -- VIRTUAL CONTROLLER CODE
 --------------------------------------------------------------------------------------
--- This section contains everything you need to create and display the controller
--- This isn't the best place to have all of this code, but I wanted to keep it all
--- in one place so you can find it easily
--- setupController gets called in scene:create()
---------------------------------------------------------------------------------------
 
--- This line brings in the controller which basically acts like a class
 local factory = require("controller.virtual_controller_factory")
 local controller = factory:newController()
 
--- This enables both joysticks to be used at the same time. All of the code to make 
--- sure that touch events are handled by the correct joystick is encased in the controller
--- so you don't have to worry about that. 
+ 
 system.activate("multitouch")
 
--- These are variables to hold the joysticks so that I can 
--- use them in a timer later on
+
 
 local contador = 0
 local js1
@@ -76,6 +64,8 @@ end
 
 local enemyTable = {}
 local maxEnemies = 50
+local supplyTable = {}
+local maxSupplys = 3
 
 local died = false
 
@@ -88,6 +78,7 @@ local backGroup
 local mainGroup
 local uiGroup
 
+
 local function createEnemy()
 	if(#enemyTable == maxEnemies) then
 		return true
@@ -99,7 +90,7 @@ local function createEnemy()
 	table.insert(enemyTable, newenemy)
 	physics.addBody(newenemy, "dynamic", {width = 40, height = 40, bounce = 0.8})
 	newenemy.myName = "enemy"
-	
+---------------------------------------------------------------------------------
 	local whereFrom =  math.random(4)
 	
 	if(whereFrom == 1) then
@@ -122,6 +113,41 @@ local function createEnemy()
 	newenemy:applyTorque(math.random(-1, 1))
 end
 
+local function CollisionSupply( self , event )
+	print( "--- COLISAO ---" )
+	print( event.target.name )        --the first object in the collision
+	print( event.other.name )         --the second object in the collision
+------------------------------------------------------------------------------
+	if(event.other.name == "player") then
+		print ("dentro")
+		event.other:removeSelf()
+	end
+------------------------------------------------------------------------------	
+end
+
+-----------------------------------------------------------------------------------
+local function createsupply()
+	if(#supplyTable == maxSupplys) then
+		return true
+	end
+
+	local newsupply = display.newImageRect(mainGroup, "hero.png" , 100, 100)
+
+	table.insert(supplyTable, newsupply)
+	physics.addBody(newsupply, "dynamic", {isSensor, width = 50, height = 50})
+	newsupply.myName = "supply"
+
+	local whereFrom = math.random(2)
+
+	if(whereFrom == 1) then
+		newsupply.x = -60
+		newsupply.y = math.random(display.contentHeight)
+		newsupply:setLinearVelocity(math.random(50, 120), math.random(-40, 40))
+	end
+	newsupply.collision = CollisionSupply
+	newsupply:addEventListener("collision")
+end
+------------------------------------------------------------------------------------
 local function setupJS1()
 	movementTimer = timer.performWithDelay(100, movePlayer, 0)
 end
@@ -155,30 +181,18 @@ function fireSinglebullet()
 	return true
 end
 
-local function gameLoop()
-	createEnemy()
-
-	for i = #enemyTable, 1, -1 do
-		local en = enemyTable[i]
-
-		if(en.x < -100 or en.x > display.contentWidth + 100
-			or en.y < -100 or en.y > display.contentHeight + 100) then
-			
-			display.remove(en)
-			table.remove(enemyTable, i)
-		end
-	end
-end
 
 local function endGame()
 	composer.gotoScene("menu")
 end
+
+
      
 local function onCollision(event)
 	if(event.phase == "began") then
 		local ob1 = event.object1
 		local ob2 = event.object2
-
+	
 		if((ob1.myName == "bullet" and ob2.myName == "enemy")
 		or (ob1.myName == "enemy" and ob2.myName == "bullet"))
 		then
@@ -188,7 +202,6 @@ local function onCollision(event)
 			display.remove(ob1)
 			display.remove(ob2)
 
-			audio.play(explosionSound)
 
 			for i = #enemyTable, 1, -1 do
 				if(enemyTable[i] == ob1 or enemyTable[i] == ob2) then
@@ -224,6 +237,24 @@ local function mostraContagem( event )
 	
 	indicadorContagem.text = count
 	indicadorContagem:setFillColor(1, 1, 1, 1)
+end
+
+local function gameLoop()
+	if(contador <= 10) then
+		createEnemy()
+			createsupply()
+
+		for i = #enemyTable, 1, -1 do
+			local en = enemyTable[i]
+
+			if(en.x < -100 or en.x > display.contentWidth + 100
+				or en.y < -100 or en.y > display.contentHeight + 100) then
+			
+				display.remove(en)
+				table.remove(enemyTable, i)
+			end
+		end
+	end
 end
 
 -- -----------------------------------------------------------------------------------
