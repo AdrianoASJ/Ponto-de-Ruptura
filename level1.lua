@@ -65,7 +65,7 @@ end
 local enemyTable = {}
 local maxEnemies = 50
 local supplyTable = {}
-local maxSupplys = 3
+local maxSupplys = 20
 
 local died = false
 
@@ -77,8 +77,32 @@ local movementTimer
 local backGroup
 local mainGroup
 local uiGroup
+-------------------------------------------------------------------------------------------
+-- Animation 
+-------------------------------------------------------------------------------------------
+local sheetOptions =
+{
+    width = 300,
+    height = 300,
+    numFrames = 6
+}
 
+local sheet_supply = graphics.newImageSheet( "Supply2.png", sheetOptions)
 
+local sequences_supply = {
+		    {
+		        name = "shine",
+		        start = 1,
+		        count = 6,
+		        time = 400,
+		        loopCount = 0,
+		        loopDirection = "forward"
+		    }
+		}
+
+-------------------------------------------------------------------------------------------
+--End Animation
+-------------------------------------------------------------------------------------------
 local function createEnemy()
 	if(#enemyTable == maxEnemies) then
 		return true
@@ -114,40 +138,43 @@ local function createEnemy()
 end
 
 local function CollisionSupply( self , event )
-	print( "--- COLISAO ---" )
-	print( event.target.name )        --the first object in the collision
-	print( event.other.name )         --the second object in the collision
-------------------------------------------------------------------------------
-	if(event.other.name == "player") then
-		print ("dentro")
-		event.other:removeSelf()
+	--print( "--- COLISAO ---" )
+	--print( event.target.myName )        --the first object in the collision
+	--print( event.other.myName )         --the second object in the collision
+	if(event.other.myName == "player") then
+		event.target:removeSelf()
 	end
-------------------------------------------------------------------------------	
 end
 
------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------
 local function createsupply()
 	if(#supplyTable == maxSupplys) then
 		return true
 	end
-
-	local newsupply = display.newImageRect(mainGroup, "hero.png" , 100, 100)
+	print "sheet_supply"
+	print (sheet_supply)
+	
+	local newsupply = display.newSprite(mainGroup, sheet_supply, sequences_supply)
+		newsupply.name = 'supply'
+		newsupply:setSequence( "sequences_supply" )
+		newsupply:play()
+	--local newsupply = display.newImageRect(mainGroup, "hero.png" , 100, 100)
 
 	table.insert(supplyTable, newsupply)
-	physics.addBody(newsupply, "dynamic", {isSensor, width = 50, height = 50})
-	newsupply.myName = "supply"
+	physics.addBody(newsupply, "dynamic", {isSensor = true, width = 50, height = 50})
+	
 
 	local whereFrom = math.random(2)
 
 	if(whereFrom == 1) then
-		newsupply.x = -60
-		newsupply.y = math.random(display.contentHeight)
-		newsupply:setLinearVelocity(math.random(50, 120), math.random(-40, 40))
+		newsupply.x = math.random(display.contentWidth)
+		newsupply.y = 30 -- 100 is a center
+		newsupply:setLinearVelocity(0, math.random(0, 70))
 	end
 	newsupply.collision = CollisionSupply
 	newsupply:addEventListener("collision")
 end
-------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 local function setupJS1()
 	movementTimer = timer.performWithDelay(100, movePlayer, 0)
 end
@@ -220,8 +247,9 @@ local function onCollision(event)
 
 				player.alpha = 0
 				transition.to(player, {x = display.contentCenterX, y = display.contentCenterY, alpha = 1, time = 500,
-					onComplete = function() 
+					onComplete = function()
 						died = false
+						endGame()
 					end
 				})
 			end
@@ -232,7 +260,9 @@ end
 local indicadorContagem = display.newText(contador, display.contentCenterX, display.contentCenterX, native.systemFont, 80 )
 
 local function mostraContagem( event )
+	mainGroup:insert(indicadorContagem)
 	count = contador
+
 
 	
 	indicadorContagem.text = count
@@ -242,7 +272,7 @@ end
 local function gameLoop()
 	if(contador <= 10) then
 		createEnemy()
-			createsupply()
+		createsupply()
 
 		for i = #enemyTable, 1, -1 do
 			local en = enemyTable[i]
@@ -265,7 +295,7 @@ end
 function scene:create( event )
 
 	local sceneGroup = self.view
-	-- Code here runs when the scene is first created but has not yet appeared on screen
+	
 	
 	physics.pause()
 
@@ -310,10 +340,9 @@ function scene:show( event )
 	local phase = event.phase
 
 	if ( phase == "will" ) then
-		-- Code here runs when the scene is still off screen (but is about to come on screen)
 
 	elseif ( phase == "did" ) then
-		-- Code here runs when the scene is entirely on screen
+		
 		physics.start()
 		Runtime:addEventListener("collision", onCollision)
 		gameLoopTimer = timer.performWithDelay(500, gameLoop, 0)
@@ -333,7 +362,6 @@ function scene:hide( event )
 		timer.cancel(movementTimer)
 
 	elseif ( phase == "did" ) then
-		-- Code here runs immediately after the scene goes entirely off screen
 		Runtime:removeEventListener("collision", onCollision)
 		physics.pause()
 		composer.removeScene("timerbasedexample")
