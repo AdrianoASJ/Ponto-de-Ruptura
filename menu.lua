@@ -21,13 +21,15 @@ function scene:create( event )
 
 	local sceneGroup = self.view
 
-	local title = display.newText(sceneGroup, "Ponto de Ruptura", display.contentCenterX, 200, native.systemFont, 44)
+	local background = display.newImageRect(sceneGroup, "capa.png", 728, 1024)
+	background.x = display.contentCenterX
+	background.y = display.contentCenterY
 
-	local timerExampleButton = display.newText(sceneGroup, "level1", display.contentCenterX, 810, native.systemFont, 44)
-	timerExampleButton:setFillColor(0.5, 0.5, 1, 1)
-
-
-	timerExampleButton:addEventListener("tap", gotoTimerBasedExample)
+	local timerbutton = display.newImageRect(sceneGroup, "jogar.png", display.contentCenterX, 100, display.contentCenterY, 44)
+	timerbutton.x = 400
+	timerbutton.y = 700
+		
+	timerbutton:addEventListener("tap", gotoTimerBasedExample)
 	
 end
 

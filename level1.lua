@@ -311,7 +311,7 @@ function scene:create( event )
 	setupController(uiGroup)
 	
 
-	local background = display.newImageRect(backGroup, "parede.jpg", 800, 1400)
+	local background = display.newImageRect(backGroup, "background.png", 728, 1024)
 	background.x = display.contentCenterX
 	background.y = display.contentCenterY
 	
@@ -357,9 +357,10 @@ function scene:hide( event )
 	local phase = event.phase
 
 	if ( phase == "will" ) then
-		timer.cancel(gameLoopTimer)
-		timer.cancel(fireTimer)
-		timer.cancel(movementTimer)
+
+		--timer.cancel(gameLoopTimer)
+		--timer.cancel(fireTimer)
+		--timer.cancel(movementTimer)
 
 	elseif ( phase == "did" ) then
 		Runtime:removeEventListener("collision", onCollision)
