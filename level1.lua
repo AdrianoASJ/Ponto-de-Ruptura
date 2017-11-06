@@ -82,19 +82,20 @@ local uiGroup
 -------------------------------------------------------------------------------------------
 local sheetOptions =
 {
-    width = 300,
-    height = 300,
+    width = 54,
+    height = 51,
     numFrames = 6
 }
 
-local sheet_supply = graphics.newImageSheet( "Supply2.png", sheetOptions)
-
+local sheet_supply = graphics.newImageSheet( "Supply.png", sheetOptions)
+--tamanho total do supply height 51
+--						  width 324
 local sequences_supply = {
 		    {
 		        name = "shine",
 		        start = 1,
 		        count = 6,
-		        time = 400,
+		        time = 350,
 		        loopCount = 0,
 		        loopDirection = "forward"
 		    }
@@ -212,6 +213,9 @@ end
 local function endGame()
 	composer.gotoScene("menu")
 end
+local function eliminado()
+	composer.gotoScene("morte")
+end
 
 
      
@@ -249,7 +253,7 @@ local function onCollision(event)
 				transition.to(player, {x = display.contentCenterX, y = display.contentCenterY, alpha = 1, time = 500,
 					onComplete = function()
 						died = false
-						endGame()
+						eliminado()
 					end
 				})
 			end
