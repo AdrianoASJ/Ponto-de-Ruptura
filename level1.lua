@@ -8,6 +8,8 @@ local physics = require("physics")
 physics.start()
 physics.setGravity(0, 0)
 
+local indicadorContagemColecionavel
+
 --------------------------------------------------------------------------------------
 -- VIRTUAL CONTROLLER CODE
 --------------------------------------------------------------------------------------
@@ -21,6 +23,7 @@ system.activate("multitouch")
 
 
 local contador = 0
+local contadorColecionavel = 0
 local js1
 local js2
 
@@ -143,7 +146,10 @@ local function CollisionSupply( self , event )
 	--print( event.target.myName )        --the first object in the collision
 	--print( event.other.myName )         --the second object in the collision
 	if(event.other.myName == "player") then
+		contadorColecionavel = contadorColecionavel + 1
+		indicadorContagemColecionavel.text = contadorColecionavel
 		event.target:removeSelf()
+		
 	end
 end
 
@@ -262,6 +268,12 @@ local function onCollision(event)
 end
 
 local indicadorContagem = display.newText(contador, display.contentCenterX, display.contentCenterX, native.systemFont, 80 )
+	indicadorContagem.x = 150
+	indicadorContagem.y = 50
+
+	indicadorContagemColecionavel = display.newText(contadorColecionavel, display.contentCenterX, display.contentCenterX, native.systemFont, 80 )
+	indicadorContagemColecionavel.x = 600
+	indicadorContagemColecionavel.y = 50
 
 local function mostraContagem( event )
 	mainGroup:insert(indicadorContagem)
@@ -270,7 +282,17 @@ local function mostraContagem( event )
 
 	
 	indicadorContagem.text = count
-	indicadorContagem:setFillColor(1, 1, 1, 1)
+	indicadorContagem:setFillColor(1, 1, 0.2)
+end
+
+local function mostraContagemColecionavel( event )
+	mainGroup:insert(indicadorContagemColecionavel)
+	countColecionavel = contadorColecionavel
+
+
+	
+	indicadorContagemColecionavel.text = countColecionavel
+	indicadorContagemColecionavel:setFillColor(1, 0.7, 0.2)
 end
 
 local function gameLoop()
@@ -334,7 +356,7 @@ function scene:create( event )
 	setupJS1()
 end
 
-Runtime:addEventListener("enterFrame", mostraContagem)
+Runtime:addEventListener("enterFrame", mostraContagem, mostraContagemColecionavel)
 
 
 -- show()
