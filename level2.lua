@@ -1,4 +1,3 @@
-
 local composer = require( "composer" )
 
 local scene = composer.newScene()
@@ -116,31 +115,26 @@ local function createEnemy()
 		return true
 	end
 
-	local newenemy = display.newImageRect(mainGroup, "enemy1.png" , 50, 50)
+	local newenemy = display.newImageRect(mainGroup, "enemy2.png" , 50, 50)
+
 	
 
 	table.insert(enemyTable, newenemy)
 	physics.addBody(newenemy, "dynamic", {width = 40, height = 40, bounce = 0.8})
+	newenemy.isFixedRotation = true
 	newenemy.myName = "enemy"
 ---------------------------------------------------------------------------------
-	local whereFrom =  math.random(4)
+	local whereFrom =  math.random(2)
 	
 	if(whereFrom == 1) then
-		newenemy.x = -60
-		newenemy.y = math.random(display.contentHeight)
-		newenemy:setLinearVelocity(math.random(40, 120), math.random(-40, 40))
+		newenemy.x = math.random(display.contentWidth)
+		newenemy.y = 30
+		newenemy:setLinearVelocity(0, math.random(0, 70))
 	elseif(whereFrom == 2) then
 		newenemy.x = math.random(display.contentWidth)
 		newenemy.y = -60
-		newenemy:setLinearVelocity(math.random(-40, 40), math.random(40, 120))
-	elseif(whereFrom == 3) then
-		newenemy.x = display.contentWidth + 60
-		newenemy.y = math.random(display.contentHeight)
-		newenemy:setLinearVelocity(math.random(-120, -40), math.random(-40, 40))
-	elseif(whereFrom == 4) then
-		newenemy.x = math.random(display.contentWidth)
-		newenemy.y = -60
-		newenemy:setLinearVelocity(math.random(-40, 40), math.random(-120, -40))
+		newenemy:setLinearVelocity(0, math.random(0, 40))
+	
 	end
 	newenemy:applyTorque(math.random(-1, 1))
 end
@@ -253,7 +247,7 @@ local function onCollision(event)
 					if(contador == 1) then
 						transition.to(player, {x = 382, y = 1, alpha = 1, time = 1000,})
 						timer.performWithDelay(1000,function ()
-							composer.gotoScene("level2")
+							composer.gotoScene("menu")
 						end) 
 					end
 					break
@@ -355,8 +349,8 @@ function scene:create( event )
 
  	
 
-	local background = display.newImageRect(backGroup, "background.png", 728, 1024)
-	background.x = display.contentCenterX
+	local background = display.newImageRect(backGroup, "background2.png", 800, 1024)
+	background.x = 480
 	background.y = display.contentCenterY
 	
 	player = display.newImageRect(mainGroup, "hero.png" ,  75,75 , 15)
@@ -417,7 +411,7 @@ function scene:hide( event )
 		Runtime:removeEventListener("collision", onCollision, CollisionSupply)
 		Runtime:removeEventListener("enterFrame", mostraContagem, mostraContagemColecionavel)
 		physics.pause()
-		composer.removeScene("level1")
+		composer.removeScene("level2")
 		composer.hideOverlay()
 	end
 end
