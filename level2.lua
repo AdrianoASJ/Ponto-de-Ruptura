@@ -244,9 +244,9 @@ local function onCollision(event)
 					table.remove(enemyTable, i)
 					contador = contador + 1
 
-					if(contador == 1) then
-						transition.to(player, {x = 382, y = 1, alpha = 1, time = 1000,})
-						timer.performWithDelay(1000,function ()
+					if(contador == 10) then
+						transition.to(player, {x = 382, y = 300, alpha = 1, time = 1000,})
+						timer.performWithDelay(500,function ()
 							composer.gotoScene("menu")
 						end) 
 					end

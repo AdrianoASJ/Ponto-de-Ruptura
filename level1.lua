@@ -66,7 +66,7 @@ end
 
 
 local enemyTable = {}
-local maxEnemies = 50
+local maxEnemies = 30
 local supplyTable = {}
 local maxSupplys = 30
 
@@ -250,8 +250,8 @@ local function onCollision(event)
 					table.remove(enemyTable, i)
 					contador = contador + 1
 
-					if(contador == 1) then
-						transition.to(player, {x = 382, y = 1, alpha = 1, time = 1000,})
+					if(contador == 10) then
+						transition.to(player, {x = 382, y = -200, alpha = 1, time = 1000,})
 						timer.performWithDelay(1000,function ()
 							composer.gotoScene("level2")
 						end) 
